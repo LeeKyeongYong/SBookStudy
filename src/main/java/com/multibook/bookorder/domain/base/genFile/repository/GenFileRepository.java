@@ -1,5 +1,6 @@
 package com.multibook.bookorder.domain.base.genFile.repository;
 
+import com.multibook.bookorder.domain.base.genFile.entity.GenFile;
 import com.multibook.bookorder.global.jpa.BaseEntity;
 import com.multibook.bookorder.util.UtZip;
 import jakarta.persistence.EntityListeners;
@@ -9,19 +10,29 @@ import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;
-@MappedSuperclass
-@EntityListeners(AuditingEntityListener.class) //@CreatedDate,@LastModifiedDate를 사용하기 위해 필요
-@Getter
-@ToString(callSuper = true)
-public abstract class GenFileRepository extends BaseEntity {
-    @CreatedDate
-    private LocalDateTime createDate;
-    @LastModifiedDate
-    private LocalDateTime modifyDate;
+import java.util.List;
+import java.util.Optional;
 
-    public String getModelName(){
-        return UtZip.str.lcfirst(this.getClass().getSimpleName());
-    }
+
+public interface GenFileRepository extends JpaRepository<GenFile, Long> {
+    List<GenFile> findByRelTypeCodeAndRelIdOrderByTypeCodeAscType2CodeAscFileNoAsc(String relTypeCode, Long relId);
+
+    Optional<GenFile> findByRelTypeCodeAndRelIdAndTypeCodeAndType2CodeAndFileNo(String relTypeCode, long relId, String typeCode, String type2Code, long fileNo);
+
+    List<GenFile> findByRelTypeCodeAndRelIdInOrderByTypeCodeAscType2CodeAscFileNoAsc(String relTypeCode, long[] relIds);
+
+    List<GenFile> findByRelTypeCodeAndRelIdAndTypeCodeAndType2CodeOrderByFileNoAsc(String relTypeCode, long relId, String typeCode, String type2Code);
+
+    List<GenFile> findByRelTypeCodeAndRelId(String relTypeCode, long relId);
+
+    Optional<GenFile> findTop1ByRelTypeCodeAndRelIdAndTypeCodeAndType2CodeOrderByFileNoDesc(String relTypeCode, Long relId, String typeCode, String type2Code);
+
+    List<GenFile> findByRelTypeCodeAndTypeCodeAndType2Code(String relTypeCode, String typeCode, String type2Code);
+
+    List<GenFile> findByRelTypeCode(String relTypeCode);
+
+    List<GenFile> findByRelTypeCodeAndCreateDateBefore(String relTypeCode, LocalDateTime dateTime);
 }

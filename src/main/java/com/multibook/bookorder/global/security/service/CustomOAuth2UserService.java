@@ -21,24 +21,26 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private final MemberService memberService;
     //sns 로그인이 성공 할때마다 이 함수가 실행된다.
 
-    @Transactional
+
     @Override
+    @Transactional
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 
         OAuth2User oAuth2User = super.loadUser(userRequest);
 
         String oauthId = oAuth2User.getName();
-        Map<String,Object> attributes = oAuth2User.getAttributes();
+        Map<String, Object> attributes = oAuth2User.getAttributes();
 
         Map attributesProperties = (Map) attributes.get("properties");
         String nickname = (String) attributesProperties.get("nickname");
         String profileImgUrl = (String) attributesProperties.get("profile_image");
 
         String providerTypeCode = userRequest.getClientRegistration().getRegistrationId().toUpperCase();
-        String username = providerTypeCode+"__%s".formatted(oauthId);
 
-        Member member = memberService.whenSocialLogin(providerTypeCode,username,nickname,profileImgUrl).getData();
+        String username = providerTypeCode + "__%s".formatted(oauthId);
 
-        return new SecurityUser(member.getId(),member.getUsername(),member.getPassword(),member.getAuthorities());
+        Member member = memberService.whenSocialLogin(providerTypeCode, username, nickname, profileImgUrl).getData();
+
+        return new SecurityUser(member.getId(), member.getUsername(), member.getPassword(), member.getAuthorities());
     }
 }
