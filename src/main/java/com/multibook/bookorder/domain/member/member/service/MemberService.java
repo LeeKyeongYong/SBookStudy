@@ -2,6 +2,7 @@ package com.multibook.bookorder.domain.member.member.service;
 
 import com.multibook.bookorder.domain.base.genFile.service.GenFileService;
 import com.multibook.bookorder.domain.cash.cash.entity.CashLog;
+import com.multibook.bookorder.domain.cash.cash.service.CashService;
 import com.multibook.bookorder.domain.member.member.entity.Member;
 import com.multibook.bookorder.domain.member.member.repository.MemberRepository;
 import com.multibook.bookorder.global.app.AppConfig;

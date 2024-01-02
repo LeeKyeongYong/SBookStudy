@@ -14,7 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.support.PageableExecutionUtils;
-com.multibook.bookorder.domain.product.order.entity.QOrder.order;
+import com.multibook.bookorder.domain.product.order.entity.QOrder.order;
 @RequiredArgsConstructor
 public class OrderRepositoryImpl  implements OrderRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
