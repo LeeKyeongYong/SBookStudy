@@ -1,5 +1,6 @@
 package com.multibook.bookorder.global.security.service;
 
+import com.multibook.bookorder.domain.member.member.entity.Member;
 import com.multibook.bookorder.domain.member.member.service.MemberService;
 import com.multibook.bookorder.global.security.entity.SecurityUser;
 import lombok.RequiredArgsConstructor;

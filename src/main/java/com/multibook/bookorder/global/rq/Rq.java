@@ -1,5 +1,6 @@
 package com.multibook.bookorder.global.rq;
 
+import com.multibook.bookorder.domain.member.member.entity.Member;
 import com.multibook.bookorder.domain.member.member.service.MemberService;
 import com.multibook.bookorder.global.rsData.RsData;
 import com.multibook.bookorder.global.security.entity.SecurityUser;
@@ -8,10 +9,11 @@ import jakarta.persistence.EntityManager;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
-
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
@@ -34,7 +36,7 @@ public class Rq {
         sb.append("redirect:");
         sb.append(url);
 
-        if (Ut.str.hasLength(msg)) {
+        if (UtZip.str.hasLength(msg)) {
             msg = URLEncoder.encode(msg, StandardCharsets.UTF_8);
 
             if (url.contains("?")) {
