@@ -56,7 +56,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
             }
         }
 
-        JPAQuery<Product> productJPAQuery = jpaQueryFactory
+        JPAQuery<Product> productsQuery = jpaQueryFactory
                 .selectFrom(product)
                 .where(builder);
 
@@ -65,13 +65,13 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
             productsQuery.orderBy(new OrderSpecifier(o.isAscending() ? Order.ASC : Order.DESC, pathBuilder.get(o.getProperty())));
         }
 
-        productJPAQuery.offset(pageable.getOffset()).limit(pageable.getPageSize());
+        productsQuery.offset(pageable.getOffset()).limit(pageable.getPageSize());
 
         JPAQuery<Long> totalQuery = jpaQueryFactory
                 .select(product.countDistinct())
                 .from(product)
                 .where(builder);
 
-        return PageableExecutionUtils.getPage(productQuery.fetch(),pageable,totalQuery::fetchOne);
+        return PageableExecutionUtils.getPage(productsQuery.fetch(),pageable,totalQuery::fetchOne);
     }
 }

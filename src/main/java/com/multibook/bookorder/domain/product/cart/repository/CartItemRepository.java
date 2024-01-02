@@ -8,7 +8,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface CartItemRepository extends JpaRepository<CartItem,Long> {
-    List<CartItem> findBuyear(Member buyer);
-    boolean existsBuyearAndProduct(Member buyer, Product product);
-    void deleteAllByBuyerAndProduct(Member buyer,Product product);
+    List<CartItem> findByBuyer(Member buyer);
+
+    boolean existsByBuyerAndProduct(Member buyer, Product product);
+
+    void deleteByBuyerAndProduct(Member buyer, Product product);
 }

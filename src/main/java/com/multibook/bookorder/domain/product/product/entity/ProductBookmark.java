@@ -15,7 +15,7 @@ import static lombok.AccessLevel.PROTECTED;
 @Setter
 @Getter
 @ToString(callSuper = true)
-public class ProductBookMark extends BaseEntity {
+public class ProductBookmark extends BaseEntity {
 
     @ManyToOne
     private Member member;

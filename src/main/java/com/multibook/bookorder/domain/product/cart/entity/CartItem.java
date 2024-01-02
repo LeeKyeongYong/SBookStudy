@@ -8,6 +8,13 @@ import jakarta.persistence.ManyToOne;
 import lombok.*;
 import com.multibook.bookorder.domain.member.member.entity.Member;
 import static lombok.AccessLevel.PROTECTED;
+@Entity
+@Builder
+@AllArgsConstructor(access = PROTECTED)
+@NoArgsConstructor(access = PROTECTED)
+@Setter
+@Getter
+@ToString(callSuper = true)
 public class CartItem extends BaseTime {
     @ManyToOne
     private Member buyer;

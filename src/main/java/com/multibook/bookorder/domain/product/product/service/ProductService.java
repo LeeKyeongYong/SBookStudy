@@ -1,4 +1,5 @@
 package com.multibook.bookorder.domain.product.product.service;
+import com.multibook.bookorder.domain.book.book.entity.Book;
 import com.multibook.bookorder.domain.member.member.entity.Member;
 import com.multibook.bookorder.domain.product.product.entity.Product;
 import com.multibook.bookorder.domain.product.product.repository.ProductRepository;

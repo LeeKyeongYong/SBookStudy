@@ -14,8 +14,7 @@ public class CashService {
     private final CashLogRepository cashLogRepository;
 
     @Transactional
-    public CashLog addCash(Member member, long price, CashLog.EvenType eventType, BaseEntity relEntity){
-
+    public CashLog addCash(Member member, long price, CashLog.EvenType eventType, BaseEntity relEntity) {
         CashLog cashLog = CashLog.builder()
                 .member(member)
                 .price(price)
@@ -25,6 +24,7 @@ public class CashService {
                 .build();
 
         cashLogRepository.save(cashLog);
+
         return cashLog;
     }
 }
