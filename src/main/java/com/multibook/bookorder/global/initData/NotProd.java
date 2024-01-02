@@ -7,6 +7,7 @@ import com.multibook.bookorder.domain.cash.cash.entity.CashLog;
 import com.multibook.bookorder.domain.member.member.entity.Member;
 import com.multibook.bookorder.domain.member.member.service.MemberService;
 import com.multibook.bookorder.domain.product.cart.service.CartService;
+import com.multibook.bookorder.domain.product.order.entity.Order;
 import com.multibook.bookorder.domain.product.order.service.OrderService;
 import com.multibook.bookorder.domain.product.product.entity.Product;
 import com.multibook.bookorder.domain.product.product.service.ProductService;
@@ -16,7 +17,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.core.annotation.Order;
+import com.multibook.bookorder.domain.product.order.entity.Order;
 import org.springframework.transaction.annotation.Transactional;
 
 @Configuration
