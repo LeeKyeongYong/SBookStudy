@@ -21,6 +21,7 @@ public class CashLog extends BaseTime {
     @Enumerated(EnumType.STRING)
     private EvenType evenType;
     private String relTypeCode;
+    private Long relId;
     @ManyToOne
     private Member member;
     private long price;
