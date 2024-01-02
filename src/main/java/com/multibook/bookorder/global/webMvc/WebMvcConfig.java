@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
     @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    public void addResourceHandlers(CorsRegistry  registry) {
         registry.addMapping("/api/**")
                 .allowedOrigins("https://cdpn.io", "http://localhost:5173")
                 .allowedMethods("*")
@@ -18,7 +18,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     }
 
     @Override
-    public void addCorsMappings(CorsRegistry registry) {
+    public void addCorsMappings(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/gen/**")
                 .addResourceLocations("file://"+ AppConfig.getGenFileDirPath()+"/");
     }
