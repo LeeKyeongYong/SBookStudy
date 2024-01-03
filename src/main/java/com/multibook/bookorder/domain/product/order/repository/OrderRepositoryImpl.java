@@ -5,6 +5,7 @@ import com.multibook.bookorder.domain.member.member.entity.Member;
 import com.multibook.bookorder.domain.product.order.entity.Order;
 import com.multibook.bookorder.util.UtZip;
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.annotations.QueryEntity;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPAQuery;

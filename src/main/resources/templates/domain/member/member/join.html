@@ -1,10 +1,86 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html layout:decorate="~{global/usrLayout}">
 
+<head>
+    <title>회원가입</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+    <h1>회원가입</h1>
+
+    <script>
+        function submitJoinForm(form) {
+            form.username.value = form.username.value.trim();
+
+            if (form.username.value.length == 0) {
+                toastWarning('사용자 ID를 입력해주세요.');
+                form.username.focus();
+                return;
+            }
+
+            form.password.value = form.password.value.trim();
+
+            if (form.password.value.length == 0) {
+                toastWarning('비밀번호를 입력해주세요.');
+                form.password.focus();
+                return;
+            }
+
+            form.passwordConfirm.value = form.passwordConfirm.value.trim();
+
+            if (form.passwordConfirm.value.length == 0) {
+                toastWarning('비밀번호 확인을 입력해주세요.');
+                form.passwordConfirm.focus();
+                return;
+            }
+
+            if (form.password.value != form.passwordConfirm.value) {
+                toastWarning('비밀번호가 일치하지 않습니다.');
+                form.passwordConfirm.focus();
+                return;
+            }
+
+            form.nickname.value = form.nickname.value.trim();
+
+            if (form.nickname.value.length == 0) {
+                toastWarning('별명을 입력해주세요.');
+                form.nickname.focus();
+                return;
+            }
+
+            form.submit();
+        }
+    </script>
+
+    <form th:action method="POST" enctype="multipart/form-data" onsubmit="submitJoinForm(this); return false;">
+        <div>
+            <label>사용자 ID</label>
+            <input type="text" name="username" class="input input-bordered">
+        </div>
+
+        <div>
+            <label>비밀번호</label>
+            <input type="password" name="password" class="input input-bordered">
+        </div>
+
+        <div>
+            <label>비밀번호 확인</label>
+            <input type="password" name="passwordConfirm" class="input input-bordered">
+        </div>
+
+        <div>
+            <label>별명</label>
+            <input type="text" name="nickname" class="input input-bordered">
+        </div>
+
+        <div>
+            <label>프로필 이미지</label>
+            <input type="file" name="profileImg" class="file-input file-input-bordered" accept="image/jpeg, image/png, image/gif">
+        </div>
+
+        <button type="submit" class="btn btn-primary">회원가입</button>
+    </form>
+</div>
 </body>
+
 </html>

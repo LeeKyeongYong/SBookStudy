@@ -6,6 +6,7 @@ import com.multibook.bookorder.domain.product.cart.entity.CartItem;
 import com.multibook.bookorder.domain.product.product.entity.Product;
 import com.multibook.bookorder.global.app.AppConfig;
 import com.multibook.bookorder.global.jpa.BaseTime;
+import com.querydsl.core.annotations.QueryEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -27,6 +28,7 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor(access = PROTECTED)
 @Setter
 @Getter
+@QueryEntity
 @ToString(callSuper = true)
 @Table(name = "order_")
 public class Order extends BaseTime {
