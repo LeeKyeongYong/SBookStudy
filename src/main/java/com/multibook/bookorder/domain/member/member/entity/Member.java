@@ -30,51 +30,51 @@ public class Member extends BaseTime {
     private String nickname;
     private long restCash;
 
-    @OneToMany(mappedBy = "owner",cascade=ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "owner", cascade = ALL, orphanRemoval = true)
     @Builder.Default
     private List<MyBook> myBooks = new ArrayList<>();
 
-    public void addMyBook(Book book){
-       MyBook myBook = MyBook.builder()
-               .owner(this)
-               .book(book)
-               .build();
-       myBooks.add(myBook);
+    public void addMyBook(Book book) {
+        MyBook myBook = MyBook.builder()
+                .owner(this)
+                .book(book)
+                .build();
+
+        myBooks.add(myBook);
     }
 
-    public void removeMyBook(Book book){
+    public void removeMyBook(Book book) {
         myBooks.removeIf(myBook -> myBook.getBook().equals(book));
     }
 
-    public boolean hasBook(Book book){
+    public boolean hasBook(Book book) {
         return myBooks
                 .stream()
                 .anyMatch(myBook -> myBook.getBook().equals(book));
     }
 
-    public boolean has(Product product){
-        return switch (product.getRelTypeCode()){
+    public boolean has(Product product) {
+        return switch (product.getRelTypeCode()) {
             case "book" -> hasBook(product.getBook());
             default -> false;
         };
     }
 
     @Transient
-    public Collection<? extends GrantedAuthority> getAuthorities(){
+    public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
 
         authorities.add(new SimpleGrantedAuthority("ROLE_MEMBER"));
 
-        if(List.of("system","admin").contains(username)){
+        if (List.of("system", "admin").contains(username)) {
             authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         }
 
         return authorities;
     }
 
-    public boolean isAdmin(){
+    public boolean isAdmin() {
         return getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
     }
-
 }

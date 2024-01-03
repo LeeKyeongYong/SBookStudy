@@ -23,17 +23,18 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<Member> opMember = memberRepository.findByUsername(username);
 
-        if(opMember.isEmpty()){
-            throw new UsernameNotFoundException("사용자를 찾을수가 없습니다.");
+        if (opMember.isEmpty()) {
+            throw new UsernameNotFoundException("사용자를 찾을수 없습니다.");
         }
 
-        Member member =opMember.get();
+        Member member = opMember.get();
 
+        // 인수 유형 및 순서를 수정
         return new SecurityUser(
-                member.getId(),
-                member.getUsername(),
-                member.getPassword(),
-                member.getAuthorities()
+                member.getUsername(),   // username을 첫 번째 인수로
+                member.getPassword(),   // password를 세 번째 인수로
+                member.getAuthorities(), // authorities를 네 번째 인수로
+                member.getId()          // id를 마지막 인수로
         );
     }
 }

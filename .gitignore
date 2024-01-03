@@ -2,6 +2,12 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=eclipse,intellij
 # User-specific configurations
 
+# .gitignore
+
+# Ignore generated Querydsl Q classes
+src/main/generated/
+
+
 application-secret.properties
 
 ### Gradle ###
