@@ -3,7 +3,7 @@
 # User-specific configurations
 
 # .gitignore
-
+*.db
 # Ignore generated Querydsl Q classes
 src/main/generated/
 
