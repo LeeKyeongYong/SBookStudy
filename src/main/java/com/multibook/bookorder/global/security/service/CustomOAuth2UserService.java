@@ -38,7 +38,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         Member member = memberService.whenSocialLogin(providerTypeCode, username, nickname, profileImgUrl).getData();
 
-        // 인수 유형 및 순서를 수정
-        return new SecurityUser(member.getUsername(), member.getPassword(), member.getAuthorities(), member.getId());
+        return new SecurityUser(member.getId(), member.getUsername(), member.getPassword(), member.getAuthorities());
     }
 }

@@ -29,12 +29,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         Member member = opMember.get();
 
-        // 인수 유형 및 순서를 수정
         return new SecurityUser(
-                member.getUsername(),   // username을 첫 번째 인수로
-                member.getPassword(),   // password를 세 번째 인수로
-                member.getAuthorities(), // authorities를 네 번째 인수로
-                member.getId()          // id를 마지막 인수로
+                member.getId(),
+                member.getUsername(),
+                member.getPassword(),
+                member.getAuthorities()
         );
     }
 }
