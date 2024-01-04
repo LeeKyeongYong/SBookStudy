@@ -5,9 +5,7 @@ import org.apache.catalina.util.URLEncoder;
 import org.apache.tika.Tika;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.channels.Channels;
@@ -24,6 +22,30 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class UtZip {
+    public static class exception {
+        public static String toString(Exception e) {
+            StringWriter sw = new StringWriter();
+            e.printStackTrace(new PrintWriter(sw));
+            String stackTrace = sw.toString();
+
+            StringBuilder details = new StringBuilder();
+
+            // 예외 메시지 추가
+            details.append("Exception Message: ").append(e.getMessage()).append("\n");
+
+            // 예외 원인 추가
+            Throwable cause = e.getCause();
+            if (cause != null) {
+                details.append("Caused by: ").append(cause.toString()).append("\n");
+            }
+
+            // 스택 트레이스 추가
+            details.append("Stack Trace:\n").append(stackTrace);
+
+            return details.toString();
+        }
+    }
+
     public static class match {
         public static boolean isTrue(Boolean bool) {
             return bool != null && bool;

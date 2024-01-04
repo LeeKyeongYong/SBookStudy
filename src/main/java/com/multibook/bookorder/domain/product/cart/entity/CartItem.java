@@ -3,11 +3,12 @@ package com.multibook.bookorder.domain.product.cart.entity;
 import com.multibook.bookorder.domain.member.member.entity.Member;
 import com.multibook.bookorder.domain.product.product.entity.Product;
 import com.multibook.bookorder.global.jpa.BaseTime;
+import static lombok.AccessLevel.PROTECTED;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import lombok.*;
-import com.multibook.bookorder.domain.member.member.entity.Member;
-import static lombok.AccessLevel.PROTECTED;
+
+
 @Entity
 @Builder
 @AllArgsConstructor(access = PROTECTED)
@@ -20,5 +21,4 @@ public class CartItem extends BaseTime {
     private Member buyer;
     @ManyToOne
     private Product product;
-
 }

@@ -7,5 +7,5 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 public interface ProductRepositoryCustom {
-    Page<Product> search(Member member, Boolean published, List<String> kwTypes, String kw, Pageable pageable);
+    Page<Product> search(Member maker, Boolean published, List<String> kwTypes, String kw, Pageable pageable);
 }

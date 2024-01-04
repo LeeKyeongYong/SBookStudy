@@ -20,8 +20,9 @@ public class CashService {
                 .price(price)
                 .relTypeCode(relEntity.getModelName())
                 .relId(relEntity.getId())
-                .evenType(eventType)
-                        .build();
+                .eventType(eventType)
+                .build();
+
         cashLogRepository.save(cashLog);
 
         return cashLog;

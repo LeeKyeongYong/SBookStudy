@@ -21,37 +21,35 @@ import static com.multibook.bookorder.domain.product.product.entity.QProduct.pro
 
 @RequiredArgsConstructor
 public class ProductRepositoryImpl implements ProductRepositoryCustom {
-
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
     public Page<Product> search(Member maker, Boolean published, List<String> kwTypes, String kw, Pageable pageable) {
-
         BooleanBuilder builder = new BooleanBuilder();
 
-        if(maker != null){
+        if (maker != null) {
             builder.and(product.maker.eq(maker));
         }
 
-        if(published!=null){
+        if (published != null) {
             builder.and(product.published.eq(published));
         }
 
-        if(!kw.isBlank()){
-            //기존의 조건을 리스트에 추가한다.
+        if (!kw.isBlank()) {
+            // 기존의 조건을 리스트에 담습니다.
             List<BooleanExpression> conditions = new ArrayList<>();
 
-            if(kwTypes.contains("name")){
+            if (kwTypes.contains("name")) {
                 conditions.add(product.name.containsIgnoreCase(kw));
             }
 
-            //조건 리스트를 or 조건으로 결합
+            // 조건 리스트를 or 조건으로 결합합니다.
             BooleanExpression combinedCondition = conditions.stream()
                     .reduce(BooleanExpression::or)
                     .orElse(null);
 
-            //최종적으로 생성된 조건을 쿼리에 적용한다.
-            if(combinedCondition!=null){
+            // 최종적으로 생성된 조건을 쿼리에 적용합니다.
+            if (combinedCondition != null) {
                 builder.and(combinedCondition);
             }
         }
@@ -72,6 +70,6 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .from(product)
                 .where(builder);
 
-        return PageableExecutionUtils.getPage(productsQuery.fetch(),pageable,totalQuery::fetchOne);
+        return PageableExecutionUtils.getPage(productsQuery.fetch(), pageable, totalQuery::fetchOne);
     }
 }

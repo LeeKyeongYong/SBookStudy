@@ -19,12 +19,12 @@ import static lombok.AccessLevel.PROTECTED;
 @Table(
         uniqueConstraints = @UniqueConstraint(
                 columnNames = {
-                        "rolId","rolTypeCode","typeCode","type2Code","fileNo"
+                        "relId", "relTypeCode", "typeCode", "type2Code", "fileNo"
                 }
         ),
         indexes = {
-                //특정 그룹의 데이터들을 불러올때
-                @Index(name="GenFile_idx2",columnList = "relTypeCode,typeCode,type2Code")
+                // 특정 그룹의 데이터들을 불러올 때
+                @Index(name = "GenFile_idx2", columnList = "relTypeCode, typeCode, type2Code")
         }
 )
 public class GenFile extends BaseTime {

@@ -14,6 +14,7 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class CartService {
     private final CartItemRepository cartItemRepository;
+
     @Transactional
     public CartItem addItem(Member buyer, Product product) {
         if (buyer.has(product))
@@ -34,7 +35,7 @@ public class CartService {
         cartItemRepository.deleteByBuyerAndProduct(buyer, product);
     }
 
-    public List<CartItem> findByBuyer(Member buyer) {
+    public List<CartItem> findByBuyerOrderByIdDesc(Member buyer) {
         return cartItemRepository.findByBuyer(buyer);
     }
 
@@ -52,5 +53,9 @@ public class CartService {
         if (buyer == null) return false;
 
         return cartItemRepository.existsByBuyerAndProduct(buyer, product);
+    }
+
+    public boolean canDirectMakeOrder(Member buyer, Product product) {
+        return canAdd(buyer, product);
     }
 }

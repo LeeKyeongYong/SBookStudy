@@ -28,7 +28,6 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor(access = PROTECTED)
 @Setter
 @Getter
-@QueryEntity
 @ToString(callSuper = true)
 @Table(name = "order_")
 public class Order extends BaseTime {

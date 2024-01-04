@@ -8,6 +8,7 @@ import com.multibook.bookorder.domain.product.cart.entity.CartItem;
 import com.multibook.bookorder.domain.product.cart.service.CartService;
 import com.multibook.bookorder.domain.product.order.entity.Order;
 import com.multibook.bookorder.domain.product.order.repository.OrderRepository;
+import com.multibook.bookorder.domain.product.product.entity.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,8 +27,21 @@ public class OrderService {
     private final MemberService memberService;
 
     @Transactional
+    public Order createFromProduct(Member buyer, Product product) {
+        Order order = Order.builder()
+                .buyer(buyer)
+                .build();
+
+        order.addItem(product);
+
+        orderRepository.save(order);
+
+        return order;
+    }
+
+    @Transactional
     public Order createFromCart(Member buyer) {
-        List<CartItem> cartItems = cartService.findByBuyer(buyer);
+        List<CartItem> cartItems = cartService.findByBuyerOrderByIdDesc(buyer);
 
         Order order = Order.builder()
                 .buyer(buyer)

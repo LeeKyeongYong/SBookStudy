@@ -18,15 +18,15 @@ public class All {
     private All self;
 
     @Bean
-    @Order(1)
-    ApplicationRunner initAll(){
+    @Order(2)
+    ApplicationRunner initAll() {
         return args -> {
             self.work1();
         };
     }
 
     @Transactional
-    public void work1(){
+    public void work1() {
         new File(AppConfig.getTempDirPath()).mkdirs();
     }
 }

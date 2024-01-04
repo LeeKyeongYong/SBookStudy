@@ -13,16 +13,16 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @MappedSuperclass
-@EntityListeners(AuditingEntityListener.class) //@CreateDate, @LastModifiedDate를 사용하기 위해 필요.
+@EntityListeners(AuditingEntityListener.class) // @CreatedDate, @LastModifiedDate를 사용하기 위해 필요
 @Getter
 @ToString(callSuper = true)
-public class BaseTime extends BaseEntity{
+public abstract class BaseTime extends BaseEntity {
     @CreatedDate
     private LocalDateTime createDate;
     @LastModifiedDate
     private LocalDateTime modifyDate;
 
-    public String getModeName(){
+    public String getModelName() {
         return UtZip.str.lcfirst(this.getClass().getSimpleName());
     }
 }

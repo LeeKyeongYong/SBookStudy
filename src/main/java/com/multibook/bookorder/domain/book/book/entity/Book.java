@@ -25,4 +25,5 @@ public class Book extends BaseTime {
     private String title;
     private String body;
     private int price;
+    private boolean published;
 }

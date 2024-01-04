@@ -17,9 +17,8 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor(access = PROTECTED)
 @Setter
 @Getter
-@QueryEntity
 @ToString(callSuper = true)
-public class Product extends BaseTime{
+public class Product extends BaseTime {
     @ManyToOne
     private Member maker;
     private String relTypeCode;
@@ -28,7 +27,7 @@ public class Product extends BaseTime{
     private int price;
     private boolean published;
 
-    public Book getBook(){
-        return AppConfig.getEntityManager().getReference(Book.class,relId);
+    public Book getBook() {
+        return AppConfig.getEntityManager().getReference(Book.class, relId);
     }
 }

@@ -1,5 +1,6 @@
 package com.multibook.bookorder.global.rq;
 
+import com.multibook.bookorder.domain.global.exceptions.GlobalException;
 import com.multibook.bookorder.domain.member.member.entity.Member;
 import com.multibook.bookorder.domain.member.member.service.MemberService;
 import com.multibook.bookorder.global.rsData.RsData;
@@ -17,10 +18,12 @@ import org.springframework.web.context.annotation.RequestScope;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
 @RequestScope
 @RequiredArgsConstructor
+@Slf4j
 public class Rq {
     private final HttpServletRequest request;
     private final HttpServletResponse response;
@@ -54,6 +57,15 @@ public class Rq {
         }
 
         return sb.toString();
+    }
+
+    public String historyBack(GlobalException ex) {
+        String exStr = UtZip.exception.toString(ex);
+
+        request.setAttribute("exStr", exStr);
+        log.debug(exStr);
+
+        return historyBack(ex.getRsData().getMsg());
     }
 
     public String historyBack(String msg) {
@@ -94,7 +106,7 @@ public class Rq {
                 .anyMatch(it -> it.getAuthority().equals("ROLE_ADMIN"));
     }
 
-    public void setAttribute(String key, Object value) {
+    public void attr(String key, Object value) {
         request.setAttribute(key, value);
     }
 

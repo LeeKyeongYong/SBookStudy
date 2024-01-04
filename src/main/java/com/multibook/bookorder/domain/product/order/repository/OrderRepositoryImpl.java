@@ -5,7 +5,6 @@ import com.multibook.bookorder.domain.member.member.entity.Member;
 import com.multibook.bookorder.domain.product.order.entity.Order;
 import com.multibook.bookorder.util.UtZip;
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.annotations.QueryEntity;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -16,8 +15,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.support.PageableExecutionUtils;
 import static com.multibook.bookorder.domain.product.order.entity.QOrder.order;
+
 @RequiredArgsConstructor
-public class OrderRepositoryImpl  implements OrderRepositoryCustom {
+public class OrderRepositoryImpl implements OrderRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override

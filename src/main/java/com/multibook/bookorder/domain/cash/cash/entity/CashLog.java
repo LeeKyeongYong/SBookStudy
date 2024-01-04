@@ -19,14 +19,14 @@ import static lombok.AccessLevel.PROTECTED;
 @ToString(callSuper = true)
 public class CashLog extends BaseTime {
     @Enumerated(EnumType.STRING)
-    private EvenType evenType;
+    private EvenType eventType;
     private String relTypeCode;
     private Long relId;
     @ManyToOne
     private Member member;
     private long price;
 
-    public enum EvenType{
+    public enum EvenType {
         충전__무통장입금,
         충전__토스페이먼츠,
         출금__통장입금,
