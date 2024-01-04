@@ -17,6 +17,7 @@ import java.util.List;
 
 import static jakarta.persistence.CascadeType.ALL;
 import static lombok.AccessLevel.PROTECTED;
+
 @Entity
 @Builder
 @AllArgsConstructor(access = PROTECTED)

@@ -17,46 +17,57 @@ import java.nio.charset.StandardCharsets;
 @EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-        http.authorizeRequests(authorizeRequests ->
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests(authorizeRequests ->
                         authorizeRequests
-                        .requestMatchers("/gen/**")
-                        .permitAll()
-                        .requestMatchers("/resource/**")
-                        .permitAll()
-                        .requestMatchers("/h2-console/**")
-                        .permitAll()
-                        .requestMatchers("/adm/**")
-                        .hasRole("ADMIN")
-                        .anyRequest()
-                        .permitAll()
+                                .requestMatchers("/gen/**")
+                                .permitAll()
+                                .requestMatchers("/resource/**")
+                                .permitAll()
+                                .requestMatchers("/h2-console/**")
+                                .permitAll()
+                                .requestMatchers("/adm/**")
+                                .hasRole("ADMIN")
+                                .anyRequest()
+                                .permitAll()
                 )
-                .headers( headers -> headers.frameOptions(
-                        frameOptions -> frameOptions.sameOrigin()
-                ))
-                .csrf( csrf->
-                        csrf.ignoringRequestMatchers("/h2-console/**")
-                        )
-                .formLogin(formLogin ->
-                        formLogin
-                                .loginPage("/member/login")
-                                .defaultSuccessUrl("/?msg="+ URLEncoder.encode("환영합니다.", StandardCharsets.UTF_8))
-                                .failureUrl("/member/login?failMsg="+URLEncoder.encode("아이디 또는 비밀번호가 틀렸습니다.",StandardCharsets.UTF_8))
-                        )
+                .headers(
+                        headers ->
+                                headers.frameOptions(
+                                        frameOptions ->
+                                                frameOptions.sameOrigin()
+                                )
+                )
+                .csrf(
+                        csrf ->
+                                csrf.ignoringRequestMatchers(
+                                        "/h2-console/**"
+                                )
+                )
+                .formLogin(
+                        formLogin ->
+                                formLogin
+                                        .loginPage("/member/login")
+                                        .defaultSuccessUrl("/?msg=" + URLEncoder.encode("환영합니다.", StandardCharsets.UTF_8))
+                                        .failureUrl("/member/login?failMsg=" + URLEncoder.encode("아이디 또는 비밀번호가 틀렸습니다.", StandardCharsets.UTF_8))
+                )
                 .oauth2Login(
                         oauth2Login -> oauth2Login
                                 .loginPage("/member/login")
                 )
                 .logout(
                         logout ->
-                                logout.logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
+                                logout
+                                        .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
                 );
-                return http.build();
+
+        return http.build();
     }
+
     @Bean
-    PasswordEncoder passwordEncoder(){
+    PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }

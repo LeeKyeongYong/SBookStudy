@@ -8,8 +8,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @EnableJpaAuditing
 public class BookorderApplication {
 
-	@SpringBootApplication
-	@EnableJpaAuditing
 	public static void main(String[] args) {
 		SpringApplication.run(BookorderApplication.class, args);
 	}

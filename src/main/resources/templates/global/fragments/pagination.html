@@ -1,10 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
 </head>
 <body>
+        <th:block th:fragment="pagination(itemPage,queryStrBase,pageArmSize)">
+            <style>
+                .pagination .active{
+                    color: red;
+                }
+            </style>
 
+            <div class="pagination"
+                 th:if="${itemsPage.totalPages > 0}"
+                 style="display:flex; gap:10px;"
+                 th:with="page = ${itemsPage.number + 1}"
+            >
+
+                <a th:href="|?${queryStrBase}&page=1|"
+                   th:classappend="${page == 1} ? 'active'"
+                   th:text="1"
+                >
+                </a>
+
+                <th:block th:if="${itemsPage.totalPages > 1}">
+                    <a
+                            th:href="|?${queryStrBase}&page=${page - pageArmSize - 1}|"
+                            th:if="${page - pageArmSize > 2}"
+                    >...</a>
+
+                    <th:block th:if="${itemsPage.totalPages > 2}">
+                        <a
+                                th:each="num : ${#numbers.sequence(2, itemsPage.totalPages - 1)}"
+                                th:if="${num >= page - pageArmSize and num <= page + pageArmSize}"
+                                th:href="|?${queryStrBase}&page=${num}|"
+                                th:text="${num}"
+                                th:classappend="${num == page ? 'active' : ''}"
+                        ></a>
+                    </th:block>
+
+                    <a
+                            th:href="|?${queryStrBase}&page=${page + pageArmSize + 1}|"
+                            th:if="${page + pageArmSize < itemsPage.totalPages - 1}"
+                    >...</a>
+
+                    <a th:href="|?${queryStrBase}&page=${itemsPage.totalPages}|"
+                       th:classappend="${page == itemsPage.totalPages} ? 'active'"
+                       th:text="${itemsPage.totalPages}"
+                    ></a>
+                </th:block>
+            </div>
+
+        </th:block>
 </body>
 </html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko" layout:decorate="~{global/usrLayout}">
+<head>
+    <meta charset="UTF-8">
+    <title>내정보</title>
+</head>
+<body>
+    <div layout:fragment="content">
+         <div class="flext flext-col gap-2 mt-2">
+                <div>
+                    <div>아이디</div>
+                    <div>
+                        <span th:tet="${@rq.member.username}"></span>
+                    </div>
+                </div>
+                <div>
+                    <div>캐시</div>
+                    <div>
+                        <span th:Text="${@rq.member.restCash}"></span>
+                    </div>
+                </div>
+            </div>
+        <div class="flext gap-2">
+            <a href="/withdraw/apply" class="btn btn-sm">출금신청</a>
+            <a href="/withdraw/applyList" class="btn btn-sm">출금신청내역</a>
+        </div>
+    </div>
+</body>
+</html>

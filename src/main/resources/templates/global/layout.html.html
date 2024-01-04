@@ -1,10 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
+    <link href="https://jhs512.github.io/toastr/toastr.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/resource/global/global.css">
+    <script src="/resource/global/global.js"></script>
+
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+    <script>
+        const urlParams = getUrlParams(location.href);
+    </script>
 </head>
 <body>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.23/dist/full.min.css" rel="stylesheet" type="text/css"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+        <div th:if="${@rq.login}" class="flex item-center gap-2">
+            <img class="w-10 rounded-full" th:src="${@rq.profileImgUrl}">
+            <a href="/member/me">
+                <span th:text="${@rq.member.nickname}"></span>님 환영합니다.
+            </a>
+        </div>
+        <th:block layout:fragment="header"></th:block>
+        <th:block layout:fragment="content"></th:block>
+    <script>
+            //history.back에 의해서 돌아온경우 자바스크립트가 실행이 되지 않은경우가 발생
+            //$(window).bind("pageshow",function(event){});를 사용하면 해결됨.
 
+            $(window).bind("pageshow",function(event){
+                if(sessionStorage.getItem("historyBackFailMsg")){
+                    toastWarning(sessionStorage.getItem("historyBackFailMsg"));
+                    sessionStorage.removeItem("historyBackFailMsg");
+                }
+            });
+
+            if(urlParams.msg){
+                toastNotice(urlParams.msg);
+            }
+
+            if(urlParams.failMsg){
+                toastWarning(urlParams.failMsg);
+            }
+
+    </script>
 </body>
 </html>

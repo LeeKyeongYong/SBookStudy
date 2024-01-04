@@ -1,10 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" layout:decorate="~{}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE" th:text="${@appConfig.siteName}"></title>
 </head>
 <body>
-
+        <header layout:gragment="header">
+            <h1 th:text="|${@appConfig.siteName}|"></h1>
+            <a class="btn btn-link" href="/">홈</a>
+            <a class="btn btn-link"  href="/">책</a>
+            <a class="btn btn-link" href="/">상품</a>
+            <a class="btn btn-link" th:if="${@rq.admin}" href="/">관리자 홈</a>
+            <a class="btn btn-link" th:if="${@rq.login}" href="/">짐 상품</a>
+            <a class="btn btn-link" th:if="${@rq.login}" href="/">장바구니</a>
+            <a class="btn btn-link" th:if="${@rq.login}" href="/">주문</a>
+            <a class="btn btn-link" th:if="${@rq.login}" href="/">로그아웃</a>
+            <a class="btn btn-link" th:if="${@rq.login}" href="/">내 책</a>
+            <a class="btn btn-link" th:if="${@rq.login}" href="/">내 상품</a>
+            <a class="btn btn-link" th:if="${@rq.login}" href="/">로그아웃</a>
+            <a class="btn btn-link" th:if="${@rq.logout}" href="/">로그인</a>
+            <a class="btn btn-link" th:if="${@rq.logout}" href="/">회원가입</a>
+        </header>
 </body>
 </html>

@@ -1,10 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" layout:decoraate="~{global/layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title layout:title-pattern="$CONTENT-TITLE -$lAYOUT_TITLE admin" th:text="${@appConfig.siteName}"></title>
 </head>
 <body>
+    <header layout:fragment="header">
+        <h1 th:text="|${@appConfig.siteName} 관리자|"></h1>
 
+        <a class="btn btn-link" href="/">홈</a>
+        <a class="btn btn-link" href="/adm">관리자 홈</a>
+        <a class="btn btn-link" href="/adm/withdraw/applyList">출금신청</a>
+        <a class="btn btn-link" href="/member/logout">로그아웃</a>
+    </header>
 </body>
 </html>
