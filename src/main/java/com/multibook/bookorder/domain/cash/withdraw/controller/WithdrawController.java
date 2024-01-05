@@ -55,7 +55,8 @@ public class WithdrawController {
         WithdrawApply withdrawApply = withdrawService.findById(id)
                 .orElseThrow(()->new GlobalException("400-1","출금 신청이 존재하지 않습니다."));
 
-        if(!withdrawService.canDelete("403-2","출금 신청을 취소할 수 없습니다."));
+        if(!withdrawService.canDelete(rq.getMember(),withdrawApply))
+            throw new GlobalException("403-2","출금 신청을 취소할 수 없습니다.");
 
         withdrawService.delete(withdrawApply);
 
