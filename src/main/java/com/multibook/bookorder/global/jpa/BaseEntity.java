@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
+
 @MappedSuperclass
 @Getter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
