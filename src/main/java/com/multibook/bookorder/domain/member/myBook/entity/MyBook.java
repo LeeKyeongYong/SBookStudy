@@ -14,7 +14,7 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor(access = PROTECTED)
 @Setter
 @Getter
-@ToString(callSuper = true)
+@ToString(callSuper = true, exclude = "owner")
 public class MyBook extends BaseTime {
     @ManyToOne
     private Member owner;

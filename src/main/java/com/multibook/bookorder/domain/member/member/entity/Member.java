@@ -24,7 +24,7 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor(access = PROTECTED)
 @Setter
 @Getter
-@ToString(callSuper = true)
+@ToString(callSuper = true, exclude = {"myBooks", "owner"})
 public class Member extends BaseTime {
     private String username;
     private String password;
