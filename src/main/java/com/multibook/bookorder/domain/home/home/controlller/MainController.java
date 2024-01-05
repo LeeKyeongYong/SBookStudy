@@ -13,6 +13,8 @@ public class MainController {
 
     @GetMapping("/")
     public String showHome(){
+
         return "domain/home/home/main";
+
     }
 }
