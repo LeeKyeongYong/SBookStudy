@@ -1,10 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" layout:decorate="~{global/usrLayout}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>내 상품 리스트</title>
 </head>
 <body>
+    <div layout:fragment="content">
+        <form>
+            <div style="display:flex; gap:10px;">
+                <label><input type="checkbox" name="kwType" value="name" th:checked="${kwTypesMap['name']}"><span>상품명</span> </label>
+            </div>
+            <input type="search" name="kw" placeholder="검색어" th:value="${param.kw}">
+            <input type="submit" value="검색">
+        </form>
 
+        <ul class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <li class="card bg-base-100 shadow-x1" th:each="product : ${itemPage.content}">
+                <th:block th:replace="domain/product/product/productListItemCard :: productListItemCard(${product})"></th:block>
+            </li>
+        </ul>
+
+        <div class="flext justify-center mt-3">
+            <th:block th:with="queryStrBase = ${@rq.getCurrentQueryStringWithoutParam('page')}">
+                <th:block th:replace="global/fragments/pagination :: pagination(${itemPage},${queryStrBase},3)"></th:block>
+            </th:block>
+        </div>
+    </div>
 </body>
 </html>

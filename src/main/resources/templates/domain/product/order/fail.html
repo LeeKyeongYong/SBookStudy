@@ -2,9 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>도서 결제 프로젝트</title>
 </head>
 <body>
-
+    <div class=" result wrapper">
+        <div class="box_section">
+            <h2 style="padding: 20px 0px 10px 0px">
+                <img width="25px" src="https://static.toss.im/3d-emojis/u1F6AB-apng.png"/>
+                결제 실패
+            </h2>
+            <p id="code"></p>
+            <p id="message"></p>
+        </div>
+    </div>
 </body>
 </html>
+<script>
+    const urlParams = new URLSearchParams(Window.location.search);
+
+    const codeElement = document.getElementById("code");
+    const messageElement = document.getElementById("message");
+
+    codeElement.textContent = document.getElementById("code");
+    messageElement.textContent = document.getElementById("message");
+
+    codeElement.textContent = "에러코드: "+urlParams.get("code");
+    messageElement.textContent="실패 사유: "+urlParams.get("message");
+</script>

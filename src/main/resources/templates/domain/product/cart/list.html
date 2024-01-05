@@ -1,10 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" layout:decorate="~{global/usrLayout}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>장바구니</title>
 </head>
 <body>
+    <div layout:fragment="content">
+        <h1 class="text-xl font-bold my-2 py-2 border-y-[1px] border-solid border-red-200">장바구니</h1>
+        <ul class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <li class="card bg-base-100 shadow-x1" th:each="cartItem:${cartItems}">
+                <th:block th:replace="domain/product/fragments/productListItemCard :: productListItemCard(${cartItem.product})"></th:block>
+            </li>
+        </ul>
 
+        <div class="flex justify-center mt-3">
+            <a href="/order/createFromCart" method="POST" class="btn btn-primary">
+                <span>주문</span>
+                <span>총액: <span th:text="${#numbers.formatDecimal(totalPrice,0,'COMMA',0,'POINT')}"></span>원</span>
+            </a>
+        </div>
+    </div>
 </body>
 </html>

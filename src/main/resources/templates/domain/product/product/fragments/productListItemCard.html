@@ -1,10 +1,70 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+
 </head>
+
 <body>
+
+<th:block th:fragment="productListItemCard(product)">
+    <div class="card-body">
+        <h2 class="card-title">
+            <span th:text="${product.id}"></span>
+            <span>:</span>
+            <span th:text="${product.name}"></span>
+        </h2>
+
+        <div>
+            <span th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}"></span><span>원</span>
+        </div>
+
+        <div class="card-actions justify-end">
+            <a
+                    method="POST"
+                    th:if="${@productService.canBookmark(@rq.member, product)}"
+                    th:href="|/product/${product.id}/bookmark?redirectUrl=${@rq.encodedCurrentUrl}|"
+                    class="btn btn-sm btn-outline group"
+            >
+                <i class="fa-solid fa-heart text-[#afafaf] group-hover:text-[#ff0000]"></i>
+            </a>
+            <a
+                    method="DELETE"
+                    th:if="${@productService.canCancelBookmark(@rq.member, product)}"
+                    th:href="|/product/${product.id}/cancelBookmark?redirectUrl=${@rq.encodedCurrentUrl}|"
+                    class="btn btn-sm btn-outline group"
+            >
+                <i class="fa-solid fa-heart text-[#ff0000] group-hover:text-[#afafaf]"></i>
+            </a>
+
+            <a th:if="${@cartService.canDirectMakeOrder(@rq.member, product)}"
+               class="btn btn-sm btn-outline"
+               method="POST"
+               th:href="|/order/directMakeOrder/${product.id}|"
+            >
+                바로결제
+            </a>
+
+            <a
+                    method="POST"
+                    th:if="${@cartService.canAdd(@rq.member, product)}"
+                    th:href="|/cart/add/${product.id}?redirectUrl=${@rq.encodedCurrentUrl}|"
+                    class="btn btn-sm btn-outline"
+            >
+                장바구니
+            </a>
+
+            <a
+                    method="DELETE"
+                    th:if="${@cartService.canRemove(@rq.member, product)}"
+                    th:href="|/cart/remove/${product.id}?redirectUrl=${@rq.encodedCurrentUrl}|"
+                    class="btn btn-sm"
+            >
+                장바구니
+            </a>
+        </div>
+    </div>
+</th:block>
 
 </body>
 </html>

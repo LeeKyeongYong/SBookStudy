@@ -1,10 +1,169 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" layout:decorate="~{global/usrLayout}">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>주문 [[${order.id}]]번</title>
+
+    <script src="https://js.tosspayments.com/v1/payment-widget"></script>
+
+    <script th:inline="javascript">
+        const actorRestCash = /*[[ ${actorRestCash} ]]*/ null;
+        const orderCode = /*[[ ${order.code} ]]*/ null;
+        const buyerUsername = /*[[ ${order.buyer.username} ]]*/ null;
+        const orderName = /*[[ ${order.name} ]]*/ null;
+        const orderPayPrice = /*[[ ${order.calcPayPrice} ]]*/ null;
+        const toss_clientKey = /*[[ ${@environment.getProperty('custom.tossPayments.widget.clientKey')} ]]*/ null;
+    </script>
+
 </head>
+
 <body>
 
+<div layout:fragment="content">
+
+    <h1>결제정보</h1>
+
+    <a
+            th:if="${order.cancelable}"
+            onclick="return confirm('정말로 취소하시겠습니까?');"
+            method="DELETE"
+            th:href="|${order.id}/cancel?redirectUrl=${@rq.encodedCurrentUrl}|"
+            class="btn btn-sm btn-secondary"
+    >주문취소</a>
+
+    <button onclick="history.back();" class="btn btn-primary btn-sm">뒤로가기</button>
+
+    <div>
+        <div>주문번호: [[${order.id}]]</div>
+        <div>주문코드: [[${order.code}]]</div>
+        <div>주문자: [[${order.buyer.username}]]</div>
+        <div>주문상품: [[${order.name}]]</div>
+        <div>결제금액: [[${order.calcPayPrice}]]</div>
+        <div>결제상태: [[${order.forPrintPayStatus}]]</div>
+        <div>취소상태: [[${order.forPrintCancelStatus}]]</div>
+        <div>환불상태: [[${order.forPrintRefundStatus}]]</div>
+    </div>
+
+    <th:block th:if="${order.payable}">
+
+        <!-- 결제 UI -->
+        <div id="payment-method"></div>
+
+        <!-- 이용약관 UI -->
+        <div id="agreement"></div>
+
+        <!-- 결제하기 버튼 -->
+        <form method="POST" th:action="|/order/${order.id}/payByCash|" onsubmit="submitPayForm(this); return false;">
+            <div>
+                <label>고객 이메일</label>
+                <input type="email" name="customerEmail" placeholder="customer@email.com" class="input input-bordered"
+                       value="test@test.com">
+            </div>
+
+            <div>
+                <label>고객 이름(실명)</label>
+                <input type="text" name="customerName" placeholder="홍길동" class="input input-bordered" value="홍길동">
+            </div>
+
+            <div>
+                <label>고객 휴대전화번호(- 제외)</label>
+                <input type="text" name="customerMobilePhone" placeholder="01012341234" class="input input-bordered"
+                       value="01012341234">
+            </div>
+
+            <div>
+                <label>캐시</label>
+                <input type="number" name="useCash" th:max-cash="${order.calcPayPrice > actorRestCash ? actorRestCash : order.calcPayPrice}" th:placeholder="${'0 ~ ' + (order.calcPayPrice > actorRestCash ? actorRestCash : order.calcPayPrice)}" class="input input-bordered">
+                <button type="button" onclick="$(this).prev().val($(this).prev().attr('max-cash'))">전액</button>
+            </div>
+
+            <div>
+                <label>결제하기</label>
+                <button type="submit" id="payment-button" class="btn btn-primary">결제하기</button>
+            </div>
+        </form>
+
+        <script>
+            const button = document.getElementById("payment-button");
+            var amount = orderPayPrice;
+
+            const clientKey = toss_clientKey;
+            const customerKey = buyerUsername;
+            const paymentWidget = PaymentWidget(clientKey, customerKey); // 회원 결제
+            // const paymentWidget = PaymentWidget(clientKey, PaymentWidget.ANONYMOUS); // 비회원 결제
+
+            // ------  결제 UI 렌더링 ------
+            // @docs https://docs.tosspayments.com/reference/widget-sdk#renderpaymentmethods선택자-결제-금액-옵션
+            paymentMethodWidget = paymentWidget.renderPaymentMethods(
+                "#payment-method",
+                {value: amount},
+                // 렌더링하고 싶은 결제 UI의 variantKey
+                // 결제 수단 및 스타일이 다른 멀티 UI를 직접 만들고 싶다면 계약이 필요해요.
+                // @docs https://docs.tosspayments.com/guides/payment-widget/admin#멀티-결제-ui
+                {variantKey: "DEFAULT"}
+            );
+            // ------  이용약관 UI 렌더링 ------
+            // @docs https://docs.tosspayments.com/reference/widget-sdk#renderagreement선택자-옵션
+            paymentWidget.renderAgreement("#agreement", {variantKey: "AGREEMENT"});
+
+            let submitPayFormDone = false;
+
+            function submitPayForm(form) {
+                if ( submitPayFormDone ) return;
+
+                form.customerEmail.value = form.customerEmail.value.trim();
+
+                if (form.customerEmail.value.length == 0) {
+                    toastWarning("고객 이메일을 입력해주세요.");
+                    form.customerEmail.focus();
+
+                    return;
+                }
+
+                form.customerName.value = form.customerName.value.trim();
+
+                if (form.customerName.value.length == 0) {
+                    toastWarning("고객 이름(실명)을 입력해주세요.");
+                    form.customerName.focus();
+
+                    return;
+                }
+
+                form.customerMobilePhone.value = form.customerMobilePhone.value.trim();
+
+                if (form.customerMobilePhone.value.length == 0) {
+                    toastWarning("고객 휴대전화번호를 입력해주세요.");
+                    form.customerMobilePhone.focus();
+
+                    return;
+                }
+
+                form.useCash.value = form.useCash.value.trim();
+
+                const useCash = form.useCash.valueAsNumber || 0;
+
+                if ( amount - useCash == 0 ) {
+                    form.submit();
+                    submitPayFormDone = true;
+                    return;
+                }
+
+                paymentMethodWidget.updateAmount(amount - useCash);
+
+                paymentWidget.requestPayment({
+                    orderId: orderCode,
+                    orderName: orderName,
+                    successUrl: window.location.origin + "/order/success",
+                    failUrl: window.location.origin + "/order/fail",
+                    customerEmail: form.customerEmail.value,
+                    customerName: form.customerName.value,
+                    customerMobilePhone: form.customerMobilePhone.value,
+                });
+            }
+        </script>
+
+    </th:block>
+</div>
+
 </body>
+
 </html>

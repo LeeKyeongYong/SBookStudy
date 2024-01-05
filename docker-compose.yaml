@@ -1,0 +1,17 @@
+version: "3.7"
+
+services:
+  db:
+    image: mysql
+    container_name: skystudy-db
+    restart: always
+    volumes:
+      - skystudy_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: simsokylee
+      MYSQL_DATABASE: skystudy
+    ports:
+      - "3306:3306"
+
+volumes:
+  mindtalk_data:
