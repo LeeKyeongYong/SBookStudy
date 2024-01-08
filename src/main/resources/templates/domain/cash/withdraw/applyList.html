@@ -1,10 +1,99 @@
-<!DOCTYPE html>
-<html lang="en">
+<html layout:decorate="~{global/usrLayout}">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>출금신청 목록</title>
 </head>
+
 <body>
 
+<div layout:fragment="content">
+    <h1>출금신청 목록</h1>
+
+    <div>
+        <ul class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
+            <li th:each="withdrawApply : ${withdrawApplies}" class="card bg-base-100 shadow-xl">
+                <div class="card-body">
+                    <div>
+                        <div>신청번호</div>
+                        <div>
+                            <span th:text="${withdrawApply.id}"></span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div>은행명</div>
+                        <div>
+                            <span th:text="${withdrawApply.bankName}"></span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div>계좌번호</div>
+                        <div>
+                            <span th:text="${withdrawApply.bankAccountNo}"></span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div>출금캐시</div>
+                        <div>
+                            <span th:text="${withdrawApply.cash}"></span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div>등록일</div>
+                        <div>
+                            <span th:text="${withdrawApply.createDate}"></span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div>처리상태</div>
+                        <div>
+                            <span th:text="${withdrawApply.forPrintWithdrawStatus}"></span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div>취소상태</div>
+                        <div>
+                            <span th:text="${withdrawApply.forPrintCancelStatus}"></span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div>메모</div>
+                        <div>
+                            <span th:text="${withdrawApply.msg}"></span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div>작업</div>
+                        <div>
+                            <a
+                                    th:if="${@withdrawService.canDelete(@rq.member, withdrawApply)}"
+                                    method="DELETE"
+                                    th:href="|/withdraw/${withdrawApply.id}/delete|"
+                                    class="btn btn-error btn-sm"
+                                    onclick="return confirm('정말로 삭제하시겠습니까?');"
+                            >
+                                삭제
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <div class="mt-4">
+        <a href="/withdraw/apply" class="btn btn-sm">출금신청</a>
+    </div>
+
+</div>
+
 </body>
+
 </html>

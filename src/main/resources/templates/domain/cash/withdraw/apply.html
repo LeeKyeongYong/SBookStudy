@@ -1,10 +1,69 @@
-<!DOCTYPE html>
-<html lang="en">
+<html layout:decorate="~{global/usrLayout}">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>출금신청</title>
 </head>
+
 <body>
 
+<div layout:fragment="content">
+    <h1>출금신청</h1>
+
+    <form th:action method="POST" class="flex flex-col gap-2 mt-2">
+        <div>
+            <div>아이디</div>
+            <div>
+                <span th:text="${@rq.member.username}"></span>
+            </div>
+        </div>
+
+        <div>
+            <div>보유캐시</div>
+            <div>
+                <span th:text="${@rq.member.restCash}"></span>
+            </div>
+        </div>
+
+        <div>
+            <div>은행명</div>
+            <div>
+                <select name="bankName" class="select select-bordered" required>
+                    <option value="" disabled selected>은행</option>
+                    <option value="국민은행">국민은행</option>
+                    <option value="기업은행">기업은행</option>
+                </select>
+            </div>
+        </div>
+
+        <div>
+            <div>계좌번호</div>
+            <div>
+                <input class="input input-bordered" type="text" name="bankAccountNo" placeholder="은행계좌번호, - 없이 입력해주세요." required>
+            </div>
+        </div>
+
+        <div>
+            <div>출금캐시</div>
+            <div>
+                <input type="number" th:max="${@rq.member.restCash}" class="input input-bordered" name="cash"
+                       placeholder="출금액" required>
+            </div>
+        </div>
+
+        <div>
+            <div>출금신청</div>
+            <div>
+                <input type="submit" class="btn btn-sm btn-primary" value="출금신청">
+            </div>
+        </div>
+    </form>
+
+    <div>
+        <button onclick="history.back();" class="btn btn-sm">뒤로가기</button>
+    </div>
+
+</div>
+
 </body>
+
 </html>
